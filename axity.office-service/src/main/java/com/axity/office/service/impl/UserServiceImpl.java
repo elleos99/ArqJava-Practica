@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.axity.office.commons.dto.UserDto;
+import com.axity.office.commons.dto.RoleDto;
 import com.axity.office.commons.enums.ErrorCode;
 import com.axity.office.commons.exception.BusinessException;
 import com.axity.office.commons.request.MessageDto;
