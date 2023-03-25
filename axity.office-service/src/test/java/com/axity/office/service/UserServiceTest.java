@@ -84,7 +84,7 @@ class UserServiceTest
   }
 
   /**
-   * Test method for
+   * Test method for create 
    * {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
    */
   @Test
@@ -94,7 +94,7 @@ class UserServiceTest
     var dto = new UserDto();
     // Crear de acuerdo a la entidad
 
-    var response = this.userService.create( dto );
+    var response = this.userService.creat( dto );
     assertNotNull( response );
     assertEquals( 0, response.getHeader().getCode() );
     assertNotNull( response.getBody() );
@@ -103,7 +103,7 @@ class UserServiceTest
   }
 
 /**
-   * Test method for
+   * Test method for create user whith multiple roles
    * {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
    */
   @Test
@@ -113,13 +113,13 @@ class UserServiceTest
     list.add(creatRole(2));
     
     var dto = new UserDto();
-    dto.setUsername("Username1");
-    dto.setEmail("username@mail.com");
-    dto.setName("User");
-    dto.setLastName("Name");
+    dto.setUsername("LeoUN");
+    dto.setEmail("Leo@company.com");
+    dto.setName("Leo");
+    dto.setLastName("Fuentes");
     dto.setRoles(list); 
 
-    var response = this.userService.create( dto );
+    var response = this.userService.creat( dto );
     assertNotNull( response );
     assertEquals( 0, response.getHeader().getCode() );
     assertNotNull( response.getBody() );
@@ -131,24 +131,87 @@ class UserServiceTest
     return role;
   }
 
+
+  /**
+   * Test method for username validation
+   * {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
+   */
   @Test
-  void validateEmail(){
+  void testUsernameExistence() {
+    // Data inicial
     var list = new ArrayList<RoleDto>();
     list.add(creatRole(1));
-    list.add(creatRole(2));
-    
-    var dto = new UserDto();
-    dto.setUsername("Username1");
-    dto.setEmail("gillian.bowers@company.net");
-    dto.setName("User");
-    dto.setLastName("Name");
-    dto.setRoles(list); 
 
-    var response = this.userService.create( dto );
-    assertNotNull( response );
-    assertEquals( 12, response.getHeader().getCode() );
-    assertNull(response.getBody());
+    var dto = new UserDto();
+
+    dto.setUsername("LeoUN");
+    dto.setEmail("Leo@company.com");
+    dto.setName("Leo");
+    dto.setLastName("Fuentes");
+    dto.setRoles(list);
+
+    // Llamada
+    var response = this.userService.creat(dto);
+
+    // Validación
+    assertNotNull(response);
     
+    assertEquals( 0, response.getHeader().getCode() );
+    assertNotNull( response.getBody() );
+    assertEquals(ErrorCode.USER_ALREADY_EXISTS.getCode(), response.getHeader().getCode());
+  }
+
+  /**
+   * Test method for validate email already exist in bd
+   * {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
+   */
+  @Test
+  void testMailExistence() {
+    // Data inicial
+    var list = new ArrayList<RoleDto>();
+    list.add(creatRole(1));
+
+    var dto = new UserDto();
+    
+    dto.setUsername("LeoUN");
+    dto.setEmail("denise.alford@company.com");
+    dto.setName("Leo");
+    dto.setLastName("Fuentes");
+    dto.setRoles(list);
+
+    // Llamada
+    var response = this.userService.creat(dto);
+
+    // Validación
+    assertNotNull(response);
+    assertEquals(ErrorCode.EMAIL_ALREADY_EXISTS.getCode(), response.getHeader().getCode());
+  }
+
+  /***** ESCENARIO CUATRO *****/
+
+  /**
+   * Test method for validate role selected {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
+   */
+  @Test
+  void testValidateRolesSelectedNotExist() {
+    // Data inicial
+    var list = new ArrayList<RoleDto>();
+    list.add(creatRole(99)); 
+
+    var dto = new UserDto();
+
+    dto.setUsername("LeoUN");
+    dto.setEmail("Leo@company.com");
+    dto.setName("Leo");
+    dto.setLastName("Fuentes");
+    dto.setRoles(list);
+
+    // Llamada
+    var response = this.userService.creat(dto);
+
+    // Validación
+    assertNotNull(response);
+    assertEquals(ErrorCode.ROLE_NOT_EXISTS.getCode(), response.getHeader().getCode());
   }
 
   /**

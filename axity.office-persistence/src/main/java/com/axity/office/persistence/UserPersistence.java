@@ -19,4 +19,6 @@ public interface UserPersistence extends JpaRepository<UserDO, Integer>
 {
   // Agregar consultas personalizadas
   Optional<UserDO> findByEmail(String email);
+
+  Optional<UserDO> findByUsername(String username);
 }

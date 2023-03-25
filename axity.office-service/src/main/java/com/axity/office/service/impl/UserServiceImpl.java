@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService
    * {@inheritDoc}
    */
   @Override
-  public GenericResponseDto<UserDto> create( UserDto dto )
+  public GenericResponseDto<UserDto> creat( UserDto dto )
   {
     if (userPersistence.findByEmail(dto.getEmail()).isPresent()) {
       GenericResponseDto<UserDto> genericResponse = new GenericResponseDto<>();
@@ -178,4 +178,33 @@ public class UserServiceImpl implements UserService
     }
     return dto;
   }
+
+  /**
+   * 
+   * @param email
+   */
+  @Override
+  public boolean existEmail(String email) {
+    return (this.userPersistence.findByEmail(email).isPresent());
+  }
+
+  /**
+   * 
+   * @param username
+   */
+  @Override
+  public boolean existUsername(String username) {
+    return (this.userPersistence.findByUsername(username).isPresent());
+  }
+
+  /**
+   * 
+   * @param id
+   */
+  @Override
+  public boolean existRole(Integer id) {
+    return this.rolePersistence.findById(id).isPresent();
+  }
+
+
 }
