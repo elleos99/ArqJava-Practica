@@ -218,10 +218,7 @@ class UserServiceTest
     dto.setLastName("Fuentes");
     dto.setRoles(list);
 
-    // Llamada
     var response = this.userService.creat(dto);
-
-    // Validación
     assertNotNull(response);
     assertEquals(ErrorCode.ROLE_NOT_SELECTED.getCode(), response.getHeader().getCode());
   }
