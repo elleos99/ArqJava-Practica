@@ -150,13 +150,8 @@ class UserServiceTest
     dto.setLastName("Fuentes");
     dto.setRoles(list);
 
-    // Llamada
     var response = this.userService.creat(dto);
-
-    // Validación
     assertNotNull(response);
-    
-    assertEquals( 0, response.getHeader().getCode() );
     assertNotNull( response.getBody() );
     assertEquals(ErrorCode.USER_ALREADY_EXISTS.getCode(), response.getHeader().getCode());
   }
@@ -179,21 +174,17 @@ class UserServiceTest
     dto.setLastName("Fuentes");
     dto.setRoles(list);
 
-    // Llamada
     var response = this.userService.creat(dto);
-
-    // Validación
     assertNotNull(response);
     assertEquals(ErrorCode.EMAIL_ALREADY_EXISTS.getCode(), response.getHeader().getCode());
   }
 
-  /***** ESCENARIO CUATRO *****/
-
   /**
-   * Test method for validate role selected {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
+   * Test method for role validation
+   * {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
    */
   @Test
-  void testValidateRolesSelectedNotExist() {
+  void testRoles() {
     // Data inicial
     var list = new ArrayList<RoleDto>();
     list.add(creatRole(99)); 
@@ -206,12 +197,33 @@ class UserServiceTest
     dto.setLastName("Fuentes");
     dto.setRoles(list);
 
+    var response = this.userService.creat(dto);
+    assertNotNull(response);
+    assertEquals(ErrorCode.ROLE_NOT_EXISTS.getCode(), response.getHeader().getCode());
+  }
+
+  /**
+   * Test method for roles empty validation
+   * {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
+   */
+  @Test
+  void testValidateRolesEmpty() {
+    // Data inicial
+    var list = new ArrayList<RoleDto>();// Roles list empty does not exist in db
+
+    var dto = new UserDto();
+    dto.setUsername("LeoUN");
+    dto.setEmail("Leo@company.com");
+    dto.setName("Leo");
+    dto.setLastName("Fuentes");
+    dto.setRoles(list);
+
     // Llamada
     var response = this.userService.creat(dto);
 
     // Validación
     assertNotNull(response);
-    assertEquals(ErrorCode.ROLE_NOT_EXISTS.getCode(), response.getHeader().getCode());
+    assertEquals(ErrorCode.ROLE_NOT_SELECTED.getCode(), response.getHeader().getCode());
   }
 
   /**
