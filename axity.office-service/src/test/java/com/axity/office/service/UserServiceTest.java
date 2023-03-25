@@ -207,7 +207,7 @@ class UserServiceTest
    * {@link com.axity.office.service.impl.UserServiceImpl#create(com.axity.office.commons.dto.UserDto)}.
    */
   @Test
-  void testValidateRolesEmpty() {
+  void testEmptyRoles() {
     // Data inicial
     var list = new ArrayList<RoleDto>();// Roles list empty does not exist in db
 
