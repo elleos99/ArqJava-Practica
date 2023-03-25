@@ -80,5 +80,4 @@ public interface UserService
    */
   boolean existRole(Integer id);
 
-
 }
